@@ -137,7 +137,7 @@ Normal users do not need to put IBKR Flex Token, LLM API Key, LongBridge Client 
 
 ## LongBridge Notes
 
-- Go to `/admin/longbridge-mcp` and click the authorization button.
+- Go to `/admin/longbridge-mcp` and click the authorization (Start Authorization) button.
 - The system automatically registers an OAuth Client ID and redirects to LongBridge authorization.
 - After consent, OpenAPI / SDK / MCP reuse the same OAuth token.
 - LongBridge is used **only for public market data**: quotes, candles, benchmark ETFs, news, announcements, earnings, valuation, and macro context.
