@@ -44,7 +44,7 @@ def login(
         max_age=auth_service.get_max_age_seconds(),
         httponly=True,
         samesite="lax",
-        secure=False,
+        secure=auth_service.settings.auth_cookie_secure,
         path="/",
     )
     return AuthSessionResponse(authenticated=True, username=payload.username)

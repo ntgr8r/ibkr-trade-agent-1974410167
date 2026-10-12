@@ -1,11 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 
-from app.api.deps import get_account_service
+from app.api.deps import get_account_service, require_authenticated_session
 from app.clients.es_client import ESClientError
 from app.schemas.account import AccountOverviewResponse, LatestReportDateResponse
 from app.services.account_service import AccountService
 
-router = APIRouter(prefix="/account", tags=["account"])
+router = APIRouter(
+    prefix="/account",
+    tags=["account"],
+    dependencies=[Depends(require_authenticated_session)],
+)
 
 
 @router.get("/overview", response_model=AccountOverviewResponse)

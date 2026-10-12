@@ -1,12 +1,16 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
-from app.api.deps import get_optional_auth_session, get_position_service
+from app.api.deps import get_optional_auth_session, get_position_service, require_authenticated_session
 from app.clients.es_client import ESClientError
 from app.core.auth import AuthSession
 from app.schemas.positions import PositionDetailResponse, PositionListResponse, PositionSummaryResponse
 from app.services.position_service import PositionService
 
-router = APIRouter(prefix="/positions", tags=["positions"])
+router = APIRouter(
+    prefix="/positions",
+    tags=["positions"],
+    dependencies=[Depends(require_authenticated_session)],
+)
 
 
 @router.get("", response_model=PositionListResponse)

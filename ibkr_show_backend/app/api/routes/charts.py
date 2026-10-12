@@ -1,11 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
-from app.api.deps import get_chart_service
+from app.api.deps import get_chart_service, require_authenticated_session
 from app.clients.es_client import ESClientError
 from app.schemas.charts import EquityCurveResponse, PerformanceCalendarResponse
 from app.services.chart_service import ChartService
 
-router = APIRouter(prefix="/charts", tags=["charts"])
+router = APIRouter(
+    prefix="/charts",
+    tags=["charts"],
+    dependencies=[Depends(require_authenticated_session)],
+)
 
 
 @router.get("/equity-curve", response_model=EquityCurveResponse, response_model_exclude_none=True)

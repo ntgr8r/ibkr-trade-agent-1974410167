@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
-from app.api.deps import get_longbridge_external_data_client
+from app.api.deps import get_longbridge_external_data_client, require_authenticated_session
 from app.schemas.longbridge import (
     LongbridgeBenchmarkCandlesResponse,
     LongbridgeCandlesResponse,
@@ -10,7 +10,11 @@ from app.schemas.longbridge import (
 )
 from app.services.longbridge_service import LongbridgeExternalDataClient, LongbridgeExternalDataError, LongbridgeUnavailableError
 
-router = APIRouter(prefix="/longbridge", tags=["longbridge"])
+router = APIRouter(
+    prefix="/longbridge",
+    tags=["longbridge"],
+    dependencies=[Depends(require_authenticated_session)],
+)
 
 
 @router.get("/health", response_model=LongbridgeHealthResponse)

@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 
 from app.core.config import Settings, get_settings
+from app.api.deps import require_authenticated_session
 from app.schemas.market_event import (
     MarketEventCalendarResponse,
     MarketEventDetail,
@@ -20,7 +21,11 @@ from app.schemas.market_event import (
 from app.clients.es_client import ElasticsearchClient
 from app.services.market_event_query_service import MarketEventQueryService
 
-router = APIRouter(prefix="/market-events", tags=["market-events"])
+router = APIRouter(
+    prefix="/market-events",
+    tags=["market-events"],
+    dependencies=[Depends(require_authenticated_session)],
+)
 
 
 def _get_query_service(settings: Settings = Depends(get_settings)) -> MarketEventQueryService:
